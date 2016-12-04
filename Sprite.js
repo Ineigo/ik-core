@@ -1,35 +1,57 @@
+function isColor(str) {
+    const colorPattern = /#[a-f0-9]{6}/gi;
+    return colorPattern.test(str)
+}
+
+function drawImage(x, y, w, h) {
+    if (this.pattern) {
+        this.context.fillStyle = this.pattern;
+        this.context.fillRect(x, y, w, h);
+    } else {
+        // Image
+        if (w == undefined || h == undefined) {
+            this.context.drawImage(this.image, x, y, this.image.width, this.image.height);
+        } else {
+            // stretched
+            this.context.drawImage(this.image, x, y, w, h);
+        }
+    }
+}
+
+function drawColor(x, y, w, h) {
+    this.context.fillStyle = this.color;
+    this.context.fillRect(x, y, w, h);
+}
+
 export default class Sprite {
-    // Construct
     static TO_RADIANS = Math.PI / 180;
 
     constructor(context, filename, is_pattern) {
         if(!context) throw Error("Not exist Canvas Context");
         if (!filename) throw new Error('Unable load file');
-
-        console.log("Load Sprite:", filename);
-
+        this.color = isColor(filename) ? filename : null;
         this.context = context;
-        this.image = new Image();
-        this.image.src = filename;
-        if (is_pattern) {
-            this.pattern = this.context.createPattern(this.image, 'repeat');
+        
+        if(!this.color) {
+            console.log("Load Sprite:", filename);
+
+            this.image = new Image();
+            this.image.src = filename;
+            if (is_pattern) {
+                this.pattern = this.context.createPattern(this.image, 'repeat');
+            }
         }
     }    
 
+
+
     draw(x, y, w, h) {
-        if (this.pattern) {
-            this.context.fillStyle = this.pattern;
-            this.context.fillRect(x, y, w, h);
+        if(this.color) {
+            drawColor.call(this, x, y, w, h);
         } else {
-            // Image
-            if (w == undefined || h == undefined) {
-                this.context.drawImage(this.image, x, y, this.image.width, this.image.height);
-            } else {
-                // stretched
-                this.context.drawImage(this.image, x, y, w, h);
-            }
+            drawImage.call(this, x, y, w, h);
         }
-    };
+    }
 
     rotate(x, y, angle) {
         this.context.save();
