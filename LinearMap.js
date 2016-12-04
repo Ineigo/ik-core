@@ -17,6 +17,13 @@ export default class LinearMap {
         map = map.map(collback);
     }
 
+    shuffle() {
+        for (let i = map.length; i; i--) {
+            let j = Math.floor(Math.random() * i);
+            [map[i - 1], map[j]] = [map[j], map[i - 1]];
+        }
+    }
+
     getIndex(x, y) {
         const index = y * this.widthCount + x;
         if(index > map.length) return null;
