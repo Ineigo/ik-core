@@ -58,7 +58,7 @@ export default class LinearMap {
 
     getMapItemCount() {
         this.widthCount = Math.floor(this.width/this.boxSize);
-        this.heightCount = Math.ceil(this.height/this.boxSize) + 1;
+        this.heightCount = Math.floor(this.height/this.boxSize);
         return this.widthCount * this.heightCount;
     }
 }
