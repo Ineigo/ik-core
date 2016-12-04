@@ -43,14 +43,14 @@ export default class LinearMap {
                             return {
                                 next() {
                                     return {
-                                        value: $this.getItem(x, y),
+                                        value: $this.getItem(x, y-1),
                                         done: x++ >= $this.widthCount
                                     }
                                 }
                             }
                         }
                     },
-                    done: y++ >= $this.heightCount -1
+                    done: y++ >= $this.heightCount
                 }
             }
         }
