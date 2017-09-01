@@ -7,15 +7,10 @@ export default class LinearMap {
         this.boxSize = boxSize;
         map = new Array(this.getMapItemCount());
     }
-    
-    fill(func) {
-        if(typeof func == 'function') map.fill(func());
-        else map.fill(func);
-    }
 
-    each(collback) {
-        map = map.map(collback);
-    }
+    fill = func => typeof func == 'function' ? map.fill(func()) : map.fill(func);
+
+    each = collback => map = map.map(collback);
 
     shuffle() {
         for (let i = map.length; i; i--) {
@@ -26,13 +21,10 @@ export default class LinearMap {
 
     getIndex(x, y) {
         const index = y * this.widthCount + x;
-        if(index > map.length) return null;
-        return index;
+        return index > map.length ? null : index;
     }
 
-    getItem(x, y) {
-        return map[this.getIndex(x, y)];
-    }
+    getItem = (x, y) => map[this.getIndex(x, y)];
 
     setItem(x, y, value) {
         map[this.getIndex(x, y)] = value;
