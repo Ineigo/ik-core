@@ -40,7 +40,7 @@ export default class Sprite {
     };
 };
 
-const colorPattern = /#[a-f0-9]{6}/gi;
+const colorPattern = /#[a-f0-9]{3,6}/gi;
 const isColor = str => str.search(colorPattern) >= 0; // test не рабит ...
 
 function drawImage(x, y, w = this.image.width, h = this.image.height) {
