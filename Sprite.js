@@ -12,7 +12,7 @@ export default class Sprite {
         this.color = isColor(filename) ? filename : null;
         this.context = context;
 
-        if(this.color) {
+        if(!this.color) {
             console.log("Load Sprite:", filename);
 
             this.image = new Image();
