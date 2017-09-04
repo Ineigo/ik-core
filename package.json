@@ -1,7 +1,7 @@
 {
     "name": "ik-core",
     "author": "Ineigo Kira",
-    "version": "0.1.6",
+    "version": "0.1.7",
     "description": "Набор объектов для разработки игр",
     "filename": "index.js",
     "repository": {

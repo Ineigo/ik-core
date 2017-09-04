@@ -12,7 +12,7 @@ export default class Sprite {
         this.color = isColor(filename) ? filename : null;
         this.context = context;
 
-        if(!this.color) {
+        if(this.color) {
             console.log("Load Sprite:", filename);
 
             this.image = new Image();
@@ -41,7 +41,7 @@ export default class Sprite {
 };
 
 const colorPattern = /#[a-f0-9]{6}/gi;
-const isColor = str => colorPattern.test(str);
+const isColor = str => str.search(colorPattern) >= 0; // test не рабит ...
 
 function drawImage(x, y, w = this.image.width, h = this.image.height) {
     if (this.pattern) {
