@@ -5,7 +5,7 @@ export default class NodeRect extends Node {
 
 	constructor(options) {
 		super(options);
-		this.color = options.color;
+		this.color = options.color || this.color;
 	}
 
 	/**

@@ -24,12 +24,16 @@ export default class Scene {
 		}
 	}
 
-	draw(context) {
+	/**
+	 * @param {Layer} layer 
+	 */
+	draw(layer) {
+		this.draw_nodes(layer);
 		if (this.options.draw) {
 			if (!(this.options.draw instanceof Function)) {
 				require('draw must be function');
 			}
-			this.options.draw.call(this, context);
+			this.options.draw.call(this, layer);
 		}
 	}
 
@@ -46,10 +50,11 @@ export default class Scene {
 		this.options = options;
 	}
 
-	draw_nodes(context) {
-		for (let i = 0; i < this[NODES].length; i++) {
-			this[NODES][i].draw(context);
-		}
+	/**
+	 * @param {Layer} layer 
+	 */
+	draw_nodes(layer) {
+		layer.draw(this[NODES]);
 	}
 
 	/**

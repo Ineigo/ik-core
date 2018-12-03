@@ -5,6 +5,7 @@ import Layer from './objects/Layer';
 
 const SCENES = Symbol('scenes');
 const LAYERS = Symbol('layers');
+const CLEAR_LAYERS = Symbol('clear_layers');
 
 export default class IKCore {
 	/** @property {CanvasRenderingContext2D} */
@@ -12,6 +13,9 @@ export default class IKCore {
 
 	/** @property {Vector2} */
 	size = null;
+
+	/** @property {Layer} */
+	layer = null;
 
 	/** @property {Vector2} */
 	canvas_offset = null;
@@ -21,6 +25,7 @@ export default class IKCore {
 
 	[SCENES] = {};
 	[LAYERS] = {};
+	[CLEAR_LAYERS] = [];
 	runnig = false;
 
 	/**
@@ -38,13 +43,8 @@ export default class IKCore {
 		this.canvas_offset = this.vector2(box.left, box.top);
 		this.update = this.update.bind(this);
 
-		if (element instanceof HTMLCanvasElement) {
-			this.canvas = new Canvas(element);
-			this.context = this.canvas.context;
-		} else {
-			this.add_layer('main', new Layer(this.size, 0, this.canvas_offset));
-			this.set_layer('main');
-		}
+		this.add_layer('main', new Layer(this.size, 0, this.canvas_offset));
+		this.set_layer('main');
 	}
 
 	/**
@@ -63,10 +63,11 @@ export default class IKCore {
 	/** @private */
 	update() {
 		if (this.runnig) {
-			this.context.clearRect(0, 0, this.size.x, this.size.y);
+			for (let i = this[CLEAR_LAYERS].length - 1; i >= 0; i--) {
+				this[CLEAR_LAYERS][i].clear();
+			}
 			this.active_scene.update();
-			this.active_scene.draw_nodes(this.context);
-			this.active_scene.draw(this.context);
+			this.active_scene.draw(this.layer);
 
 			requestAnimationFrame(this.update);
 		}
@@ -114,7 +115,7 @@ export default class IKCore {
      * @param {String} name 
      * @param {Layer} layer 
      */
-	add_layer(name, layer = require('layer is required')) {
+	add_layer(name, layer = require('layer is required'), isAutoClear = true) {
 		if (layer instanceof Layer) {
 			if (this[LAYERS][name] === layer) {
 				return;
@@ -122,6 +123,9 @@ export default class IKCore {
 
 			layer.name = name;
 			this[LAYERS][name] = layer;
+			if (isAutoClear) {
+				this[CLEAR_LAYERS].push(layer);
+			}
 			layer.mount(this.parent);
 		} else {
 			require('layer must be instance of Layer');
@@ -131,13 +135,18 @@ export default class IKCore {
 	/**
      * @param {String} name 
      */
-	set_layer(name = require('name is required')) {
+	set_layer(name) {
+		return (this.layer = this.get_layer(name));
+	}
+
+	/**
+     * @param {String} name 
+     */
+	get_layer(name = require('name is required')) {
 		if (!this[LAYERS][name]) {
 			require('layer not Found');
 		}
-		const layer = this[LAYERS][name];
-
-		this.context = layer.context;
+		return this[LAYERS][name];
 	}
 }
 
