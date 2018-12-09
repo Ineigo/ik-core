@@ -42,6 +42,7 @@ core.add_layer('back', new Layer(core.size, -1, core.canvas_offset), false);
 core.add_scene(
 	'rect',
 	new Scene({
+		core,
 		init() {
 			console.log(this, core.get_layer('main'));
 			this.add(rect);

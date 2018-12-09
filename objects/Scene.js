@@ -1,9 +1,12 @@
 import Node from './Node';
+import IKCore from '../IKCore';
 
 const NODES = Symbol('nodes');
 
 export default class Scene {
 	name = '';
+	/** @property IKCore */
+	core = null;
 	[NODES] = [];
 
 	init() {
@@ -46,8 +49,12 @@ export default class Scene {
 		}
 	}
 
-	constructor(options) {
+	constructor(options = {}) {
 		this.options = options;
+		if (!(this.options.core instanceof IKCore)) {
+			require('core is required');
+		}
+		this.core = options.core;
 	}
 
 	/**
