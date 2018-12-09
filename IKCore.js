@@ -1,4 +1,3 @@
-import Canvas from './objects/Canvas';
 import Vector2 from './objects/Vector2';
 import Scene from './objects/Scene';
 import Layer from './objects/Layer';

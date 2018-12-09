@@ -15,7 +15,7 @@ export default class NodeRect extends Node {
      */
 	render(context) {
 		context.fillStyle = this.color;
-		context.fillRect(this.position.x, this.position.y, this.size.x, this.size.y);
+		context.fillRect(-(this.size.x / 2), -(this.size.y / 2), this.size.x, this.size.y);
 	}
 }
 

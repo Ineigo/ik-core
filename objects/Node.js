@@ -1,28 +1,39 @@
 export default class Node {
 	position = null;
 	size = null;
+	angle = 0;
+	static TO_RADIANS = Math.PI / 180;
 
-	/** */
-	constructor({ position, size } = {}) {
+	constructor({ position, size, angle = 0 } = {}) {
 		this.position = position;
+		this.angle = angle;
 		this.size = size;
 	}
 
 	/**
-     * @param {Vector2} vector 
-     */
+      * @param {Vector2} vector 
+      */
 	move(vector) {
 		this.position.plus(vector);
 	}
 
+	rotate(angle = require('angle is required')) {
+		this.angle += angle;
+	}
+
 	/**
-     * @param {CanvasRenderingContext2D} context 
-     */
+      * @param {CanvasRenderingContext2D} context 
+      */
 	draw(context = require('context is required')) {
 		if (!(context instanceof CanvasRenderingContext2D)) {
 			require('context must be instance of CanvasRenderingContext2D');
 		}
+
+		context.save();
+		context.translate(this.position.x + this.size.x / 2, this.position.y + this.size.y / 2);
+		context.rotate(this.angle * Node.TO_RADIANS);
 		this.render(context);
+		context.restore();
 	}
 
 	render() {
