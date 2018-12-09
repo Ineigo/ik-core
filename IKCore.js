@@ -30,14 +30,19 @@ export default class IKCore {
 	/**
      * @param {string} element_id 
      */
-	constructor(element_id = null) {
+	constructor(element_id = null, fullScreen = false) {
 		if (typeof element_id !== 'string') {
 			require('element_id must be string');
 		}
 
 		const element = document.getElementById(element_id);
 		this.parent = element;
-		this.size = this.vector2(element.clientWidth, element.clientHeight);
+		if (fullScreen) {
+			document.body.style.margin = 0;
+			this.size = this.vector2(window.innerWidth, window.innerHeight);
+		} else {
+			this.size = this.vector2(element.clientWidth, element.clientHeight);
+		}
 		const box = element.getBoundingClientRect();
 		this.canvas_offset = this.vector2(box.left, box.top);
 		this.update = this.update.bind(this);

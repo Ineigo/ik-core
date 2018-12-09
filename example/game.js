@@ -5,7 +5,7 @@ import Layer from '../objects/Layer';
 import NodeImage from '../objects/NodeImage';
 import NodeText from '../objects/NodeText';
 
-const core = new IKCore('canvas');
+const core = new IKCore('canvas', true);
 
 const rect = new NodeRect({
 	position: core.vector2(10, 20),
