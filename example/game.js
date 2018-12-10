@@ -7,19 +7,6 @@ import NodeText from '../objects/NodeText';
 
 const core = new IKCore('canvas', true);
 
-const rect = new NodeRect({
-    position: core.vector2(10, 20),
-    size: core.vector2(20, 20),
-    color: 'red',
-});
-
-const image = new NodeImage({
-    position: core.vector2(100, 100),
-    scale: 0.3,
-    angle: 45,
-    filename: 'https://img.scryfall.com/cards/large/ru/soi/243a.jpg',
-});
-
 const image2 = new NodeImage({
     position: core.vector2(400, 10),
     scale: 0.2,
@@ -37,6 +24,20 @@ const back = new NodeRect({
     size: core.size,
 });
 
+const image = new NodeImage({
+    position: core.vector2(100, 100),
+    scale: 0.3,
+    angle: 45,
+	filename: 'https://img.scryfall.com/cards/large/ru/soi/243a.jpg',
+	children: [
+		new NodeRect({
+			position: core.vector2(0, 0),
+			size: core.vector2(20, 20),
+			color: 'red',
+		})
+	],
+});
+
 core.add_layer('back', new Layer(core.size, -1, core.canvas_offset), false);
 
 core.add_scene(
@@ -45,7 +46,6 @@ core.add_scene(
         core,
         init() {
             console.log(this, core.get_layer('main'));
-            this.add(rect);
             this.add(image);
             this.add(image2);
             this.add(text);
