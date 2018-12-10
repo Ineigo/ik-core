@@ -3,26 +3,26 @@ import Vector2 from './Vector2';
 import Node from './Node';
 
 export default class Layer {
-	/** @property {CanvasRenderingContext2D} */
-	context = null;
-	/** @property {Canvas} */
+    /** @property {CanvasRenderingContext2D} */
+    context = null;
+    /** @property {Canvas} */
     canvas = null;
     /** @property {Vector2} */
-	size = null;
-    
-	constructor(size, index = 0, offset = Vector2(0, 0)) {
+    size = null;
+
+    constructor(size, index = 0, offset = Vector2(0, 0)) {
         this.size = size;
-		const canvasElement = Canvas.createCanvas(offset.x, offset.y, size.x, size.y, index);
-		this.canvas = new Canvas(canvasElement);
-		this.context = this.canvas.context;
-	}
+        const canvasElement = Canvas.createCanvas(offset.x, offset.y, size.x, size.y, index);
+        this.canvas = new Canvas(canvasElement);
+        this.context = this.canvas.context;
+    }
 
     /**
-     * 
-     * @param {HTMLElement} element 
+     *
+     * @param {HTMLElement} element
      */
-	mount(element) {
-		element.appendChild(this.canvas.canvas);
+    mount(element) {
+        element.appendChild(this.canvas.canvas);
     }
 
     clear() {
@@ -30,8 +30,8 @@ export default class Layer {
     }
 
     /**
-     * 
-     * @param {Node|Node[]} nodes 
+     *
+     * @param {Node|Node[]} nodes
      */
     draw(nodes) {
         if (nodes instanceof Node) {
@@ -39,7 +39,7 @@ export default class Layer {
         }
 
         if (nodes instanceof Array) {
-            for(let i = 0; i < nodes.length; i++) {
+            for (let i = 0; i < nodes.length; i++) {
                 nodes[i].draw(this.context);
             }
         }
