@@ -1,34 +1,53 @@
-let map = [],
-    context;
+export type LinearMapInitProps = {
+    width: number;
+    height: number;
+    boxSize: number;
+}
+export default class LinearMap<T> {
+    private map: T[];
+    width: number;
+    height: number;
+    boxSize: number;
+    widthCount!: number;
+    heightCount!: number;
 
-export default class LinearMap {
-    constructor({ width, height, boxSize }) {
+    constructor({ width, height, boxSize }: LinearMapInitProps) {
         this.width = width;
         this.height = height;
         this.boxSize = boxSize;
-        map = new Array(this.getMapItemCount());
+        this.map = new Array<T>(this.getMapItemCount());
     }
 
-    fill = func => (typeof func == 'function' ? map.fill(func()) : map.fill(func));
+    fill = (func: () => T)  => (typeof func == 'function' ? this.map.fill(func()) : this.map.fill(func));
 
-    each = collback => (map = map.map(collback));
+    each = (collback: (element: T) => T) => (this.map = this.map.map(collback));
 
     shuffle() {
-        for (let i = map.length; i; i--) {
+        for (let i = this.map.length; i; i--) {
             let j = Math.floor(Math.random() * i);
-            [map[i - 1], map[j]] = [map[j], map[i - 1]];
+            [this.map[i - 1], this.map[j]] = [this.map[j], this.map[i - 1]];
         }
     }
 
-    getIndex(x, y) {
+    getIndex(x: number, y: number) {
         const index = y * this.widthCount + x;
-        return index > map.length ? null : index;
+        return index > this.map.length ? null : index;
     }
 
-    getItem = (x, y) => map[this.getIndex(x, y)];
+    getItem = (x: number, y: number) => {
+        const index = this.getIndex(x, y);
+        if (index === null) {
+            return null;
+        }
+        this.map[index];
+    };
 
-    setItem(x, y, value) {
-        map[this.getIndex(x, y)] = value;
+    setItem(x: number, y: number, value: T) {
+        const index = this.getIndex(x, y);
+        if (index === null) {
+            return null;
+        }
+        this.map[index] = value;
     }
 
     [Symbol.iterator]() {

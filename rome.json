@@ -1,0 +1,18 @@
+{
+  "formatter": {
+    "enabled": true,
+    "indentStyle": "space",
+    "lineWidth": 120,
+    "indentSize": 2
+  },
+  "javascript": {
+    "formatter": {
+      "quoteStyle": "single",
+      "jsxQuoteStyle": "double",
+      "trailingComma": "es5"
+    }
+  },
+  "linter": {
+    "enabled": false
+  }
+}

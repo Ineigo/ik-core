@@ -14,7 +14,7 @@ export default class Vector2 {
     /**
      * @param {Vector2} vector
      */
-    plus(vector = require('vector is require')) {
+    plus(vector: Vector2) {
         if (vector instanceof Vector2) {
             this.x += vector.x;
             this.y += vector.y;
@@ -24,6 +24,6 @@ export default class Vector2 {
     }
 }
 
-function require(msg) {
+function require(msg: string) {
     throw new Error('[Vector2]: ' + msg);
 }
