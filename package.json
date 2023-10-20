@@ -4,6 +4,11 @@
   "version": "1.1.0",
   "description": "Some simple instruments for Game Dev",
   "declaration": true,
+  "keywords": [
+    "engine",
+    "game dev",
+    "game development"
+  ],
   "prepublish": "tsc && bunx --bun vite build",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
@@ -27,7 +32,6 @@
     "format": "rome format ./src --write",
     "tsc": "tsc"
   },
-  "keywords": [],
   "dependencies": {
     "tsc": "^2.0.4"
   },
