@@ -8,7 +8,7 @@ type SceneOptions = {
   core?: IKCore;
   exit?: () => void;
   draw?: (layer: Layer) => void;
-  update?: () => void;
+  update?: (time: number) => void;
   init?: (scene: Scene) => void;
 };
 
@@ -26,12 +26,12 @@ export default class Scene {
     }
   }
 
-  update() {
+  update(time: number) {
     if (this.options.update) {
       if (!(this.options.update instanceof Function)) {
         require('update must be function');
       }
-      this.options.update.call(this);
+      this.options.update.call(this, time);
     }
   }
 

@@ -1,8 +1,8 @@
 {
   "name": "ik-core",
   "author": "Ineigo Kira",
-  "version": "1.0.1",
-  "description": "Набор объектов для разработки игр",
+  "version": "1.1.0",
+  "description": "Some simple instruments for Game Dev",
   "declaration": true,
   "prepublish": "tsc && bunx --bun vite build",
   "main": "./dist/index.js",
@@ -29,10 +29,10 @@
   },
   "keywords": [],
   "dependencies": {
-    "rome": "12.1.3-nightly.4c8cf32",
     "tsc": "^2.0.4"
   },
   "devDependencies": {
+    "rome": "12.1.3-nightly.4c8cf32",
     "@rollup/plugin-typescript": "^11.1.3",
     "@types/node": "^20.6.5",
     "rollup-plugin-typescript-paths": "^1.4.0",

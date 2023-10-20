@@ -1,6 +1,7 @@
 import Vector2 from './objects/Vector2';
 import Scene from './objects/Scene';
 import Layer from './objects/Layer';
+import { GameLoop } from './objects/GameLoop';
 
 const SCENES = Symbol('scenes');
 const LAYERS = Symbol('layers');
@@ -9,32 +10,21 @@ const CLEAR_LAYERS = Symbol('clear_layers');
 export default class IKCore {
   /** @property {CanvasRenderingContext2D} */
   context?: CanvasRenderingContext2D;
-
-  /** @property {Vector2} */
   size: Vector2;
-
-  /** @property {Layer} */
   layer?: Layer;
-
-  /** @property {Vector2} */
   canvas_offset: Vector2;
-
-  /** @property {Scene} */
   active_scene?: Scene;
   parent: HTMLElement;
+  gameLoop: GameLoop;
 
   [SCENES]: Record<string, Scene> = {};
   [LAYERS]: Record<string, Layer> = {};
   [CLEAR_LAYERS]: Layer[] = [];
-  runnig = false;
 
-  /**
-   * @param {string} element_id
-   */
   constructor(element_id: string, fullScreen: boolean = false) {
     const element = document.getElementById(element_id);
     if (!element) {
-      throw 'Not parent elemet with id ' + element_id;
+      throw '[IKCore]: Not parent elemet with id ' + element_id;
     }
     this.parent = element;
     if (fullScreen) {
@@ -47,6 +37,8 @@ export default class IKCore {
     this.canvas_offset = this.vector2(box.left, box.top);
     this.update = this.update.bind(this);
 
+    this.gameLoop = new GameLoop(this.update, this.draw);
+
     this.add_layer('main', new Layer(this.size, 0, this.canvas_offset));
     this.set_layer('main');
   }
@@ -55,43 +47,48 @@ export default class IKCore {
    * Запуск движка
    */
   start(scene: string) {
-    if (this.runnig) {
+    if (this.gameLoop.isRunnig) {
       return;
     }
-    this.runnig = true;
+
     this.set_scene(scene);
-    this.update();
+    this.gameLoop.start();
   }
 
-  /** @private */
-  update() {
-    if (this.runnig) {
-      for (let i = this[CLEAR_LAYERS].length - 1; i >= 0; i--) {
-        this[CLEAR_LAYERS][i].clear();
-      }
-      if (!this.layer) {
-        throw 'layer not found';
-      }
-      if (!this.active_scene) {
-        throw 'active scene not set';
-      }
+  stop() {
+    this.gameLoop.stop();
+  }
 
-      this.active_scene.update();
-      this.active_scene.draw(this.layer);
-
-      requestAnimationFrame(this.update);
+  private update = (time: number) => {
+    if (!this.layer) {
+      throw '[IKCore]: layer not found';
     }
-  }
+    if (!this.active_scene) {
+      throw '[IKCore]: active scene not set';
+    }
+
+    this.active_scene.update(time);
+  };
+
+  private draw = () => {
+    if (!this.layer) {
+      throw '[IKCore]: layer not found';
+    }
+    if (!this.active_scene) {
+      throw '[IKCore]: active scene not set';
+    }
+
+    for (let i = this[CLEAR_LAYERS].length - 1; i >= 0; i--) {
+      this[CLEAR_LAYERS][i].clear();
+    }
+
+    this.active_scene.draw(this.layer);
+  };
 
   vector2(x: number, y: number) {
     return new Vector2(x, y);
   }
 
-  /**
-   *
-   * @param {String} name
-   * @param {Scene} SceneObject
-   */
   add_scene(name: string, scene: Scene) {
     if (scene instanceof Scene) {
       if (this[SCENES][name] === scene) {
@@ -104,9 +101,6 @@ export default class IKCore {
     }
   }
 
-  /**
-   * @param {String} name
-   */
   set_scene(name: string) {
     if (!this[SCENES][name]) {
       require('scene not Found');
@@ -120,11 +114,6 @@ export default class IKCore {
     this.active_scene.init();
   }
 
-  /**
-   *
-   * @param {String} name
-   * @param {Layer} layer
-   */
   add_layer(name: string, layer: Layer, isAutoClear = true) {
     if (this[LAYERS][name] === layer) {
       return;
