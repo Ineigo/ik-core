@@ -1,12 +1,69 @@
 # ik-core
 Some simple instruments for Game Dev
 
+Steps to run this project:
+- `npm ci` | `bun install`
+- `npm run dev` | `bun dev`
+- open http://localhost:3000 for demo
+
+How it install:
+```
+npm install --save ik-core
+yarn add ik-core
+bun install --save ik-kore
+```
+
+Usage:
+```typescript
+import { IKCore, GameLoop, Vector2 } from 'ik-core';
+
+const core = new IKCore('canvas', true);
+
+const image2 = new NodeImage({
+    position: core.vector2(400, 10),
+    size: core.vector2(50, 50),
+    scale: 0.2,
+    filename: 'https://cards.scryfall.io/large/front/e/3/e3450882-d791-4172-b02a-ee7fdb36acfc.jpg?1673310369',
+  });
+
+const background = new NodeRect({
+    position: core.vector2(0, 0),
+    size: core.size,
+  });
+
+const text = new NodeText({
+    position: core.vector2(10, core.size.y - 10),
+    size: core.vector2(500, 36),
+    color: '#555',
+  });
+
+const bgLayerName = 'background';
+core.add_layer(bgLayerName, new Layer(core.size, -1, core.canvas_offset), false);
+
+const scene = new Scene({
+  core,
+  init(scene) {
+    scene.add(image2);
+    scene.add(text);
+    core.get_layer(bgLayerName).draw(background);
+  },
+  update() {
+    image2.rotate(1);
+    text.text = 'Time: ' + new Date().toLocaleString();
+  },
+});
+const baseSceneName = 'rect';
+core.add_scene(baseSceneName, scene);
+core.start(baseSceneName);
+```
+
 ## IKCore
 
-### Параметры:
+### Constructor
 | name      | type                          | default |
 | :-------- | :---------------------------- | :------ |
 | canvas_id | `string or HTMLCanvasElement` | *null*  |
+... coming soon
 
 ## GameLoop
 

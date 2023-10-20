@@ -1,7 +1,7 @@
 import Vector2 from './objects/Vector2';
 import Scene from './objects/Scene';
 import Layer from './objects/Layer';
-import { GameLoop } from './objects/GameLoop';
+import GameLoop from './objects/GameLoop';
 
 const SCENES = Symbol('scenes');
 const LAYERS = Symbol('layers');

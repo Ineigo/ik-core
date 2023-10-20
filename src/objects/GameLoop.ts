@@ -4,7 +4,7 @@ export type GameLoopOptions = {
   timeStep?: number;
 };
 
-export class GameLoop {
+export default class GameLoop {
   public isRunnig: boolean = false;
   protected timeStep: number;
   protected requestAnimationFrameId: number = 0;
