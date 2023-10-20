@@ -30,3 +30,15 @@ This function end gameloop
 
 ### property `isRunnig` 
 This property has gameloop status: `true/false`
+
+## Objects
+- Vector2
+- Scene
+- NodeText
+- NodeRect
+- NodeImage
+- Node
+- Layer
+- GameLoop
+- Canvas
+- LinearMap
