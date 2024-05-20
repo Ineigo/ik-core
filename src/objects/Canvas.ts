@@ -35,9 +35,10 @@ export default class Canvas {
     console.info('2d Context created', this);
   }
 
-  static createCanvas(offsetX: number, offsetY: number, width: number, height: number, index: number | null = null) {
+  static createCanvas(offsetX: number, offsetY: number, width: number, height: number, index: number | null = null, name?: string) {
     const canvas = document.createElement('canvas');
     canvas.style.cssText = `position: absolute; left: ${offsetX}; top: ${offsetY}`;
+    canvas.dataset.name = name;
     canvas.width = width;
     canvas.height = height;
     if (index !== null) {

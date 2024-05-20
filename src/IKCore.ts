@@ -39,7 +39,7 @@ export default class IKCore {
 
     this.gameLoop = new GameLoop(this.update, this.draw);
 
-    this.add_layer('main', new Layer(this.size, 0, this.canvas_offset));
+    this.add_layer(new Layer('main', this.size, 0, this.canvas_offset));
     this.set_layer('main');
   }
 
@@ -114,13 +114,12 @@ export default class IKCore {
     this.active_scene.init();
   }
 
-  add_layer(name: string, layer: Layer, isAutoClear = true) {
-    if (this[LAYERS][name] === layer) {
+  add_layer(layer: Layer, isAutoClear = true) {
+    if (this[LAYERS][layer.name] === layer) {
       return;
     }
 
-    layer.name = name;
-    this[LAYERS][name] = layer;
+    this[LAYERS][layer.name] = layer;
     if (isAutoClear) {
       this[CLEAR_LAYERS].push(layer);
     }

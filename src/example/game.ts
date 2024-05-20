@@ -41,7 +41,7 @@ export const runExample = () => {
     ],
   });
 
-  core.add_layer('back', new Layer(core.size, -1, core.canvas_offset), false);
+  core.add_layer(new Layer('back', core.size, -1, core.canvas_offset), false);
 
   core.add_scene(
     'rect',

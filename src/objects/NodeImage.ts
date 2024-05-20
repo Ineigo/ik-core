@@ -18,14 +18,14 @@ export default class NodeImage extends Node {
     this.scale = options.scale || 1;
     this.image = new Image();
     this.image.src = options.filename;
-    this.image.onload = this.initIMG.bind(this);
+    this.image.onload = this.initIMG;
   }
 
-  initIMG() {
+  initIMG = () => {
     this.loaded = true;
     this.size = new Vector2(this.image.width * this.scale, this.image.height * this.scale);
     console.log('[NodeImage]: Load Sprite ->', this.image.src);
-  }
+  };
 
   render(context: CanvasRenderingContext2D) {
     if (!this.loaded) {

@@ -10,12 +10,12 @@ How it install:
 ```
 npm install --save ik-core
 yarn add ik-core
-bun install --save ik-kore
+bun install --save ik-core
 ```
 
 Usage:
 ```typescript
-import { IKCore, GameLoop, Vector2 } from 'ik-core';
+import { IKCore, Layer, NodeRect, NodeText, Scene } from 'ik-core';
 
 const core = new IKCore('canvas', true);
 
@@ -38,7 +38,7 @@ const text = new NodeText({
   });
 
 const bgLayerName = 'background';
-core.add_layer(bgLayerName, new Layer(core.size, -1, core.canvas_offset), false);
+core.add_layer(new Layer(bgLayerName, core.size, -1, core.canvas_offset), false);
 
 const scene = new Scene({
   core,

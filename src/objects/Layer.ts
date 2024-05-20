@@ -6,11 +6,12 @@ export default class Layer {
   context: CanvasRenderingContext2D;
   canvas: Canvas;
   size: Vector2;
-  name?: string;
+  name: string;
 
-  constructor(size: Vector2, index = 0, offset: Vector2 = new Vector2(0, 0)) {
+  constructor(name: string, size: Vector2, index = 0, offset: Vector2 = new Vector2(0, 0)) {
     this.size = size;
-    const canvasElement = Canvas.createCanvas(offset.x, offset.y, size.x, size.y, index);
+    this.name = name;
+    const canvasElement = Canvas.createCanvas(offset.x, offset.y, size.x, size.y, index, `layer-${name}`);
     this.canvas = new Canvas(canvasElement);
     this.context = this.canvas.context;
   }
