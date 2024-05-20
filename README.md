@@ -19,7 +19,7 @@ import { IKCore, Layer, NodeRect, NodeText, Scene } from 'ik-core';
 
 const core = new IKCore('canvas', true);
 
-const image2 = new NodeImage({
+const image = new NodeImage({
     position: core.vector2(400, 10),
     size: core.vector2(50, 50),
     scale: 0.2,
@@ -43,12 +43,12 @@ core.add_layer(new Layer(bgLayerName, core.size, -1, core.canvas_offset), false)
 const scene = new Scene({
   core,
   init(scene) {
-    scene.add(image2);
+    scene.add(image);
     scene.add(text);
     core.get_layer(bgLayerName).draw(background);
   },
   update() {
-    image2.rotate(1);
+    image.rotate(1);
     text.text = 'Time: ' + new Date().toLocaleString();
   },
 });
